@@ -65,6 +65,12 @@ void RNCryptor::configureSettings(RNCryptorSchema schemaVersion)
 			hmac_includesPadding = false;
 			hmac_algorithm = HMAC_SHA256;
 			break;
+
+		case SCHEMA_3:
+            aesMode = MODE_CBC;
+            options = OPTIONS_1;
+            hmac_includesHeader = true;
+            break;
 	}
 }
 
