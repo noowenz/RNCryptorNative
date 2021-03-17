@@ -84,8 +84,9 @@ jbyteArray Java_tgio_rncryptor_RNCryptorNative_encrypt(JNIEnv *env, jobject inst
 }
 
 
-jstring Java_tgio_rncryptor_RNCryptorNative_decrypt(JNIEnv *env, jobject instance, jstring encrypted_, jstring password_) {
-    string decrypted = "0";
+jbyteArray Java_tgio_rncryptor_RNCryptorNative_decrypt(JNIEnv *env, jobject instance,
+                                                       jstring encrypted_, jstring password_) {
+    std::string decrypted;
     if (encrypted_ != NULL) {
         try {
             const char *encrypted = env->GetStringUTFChars(encrypted_, 0);
@@ -95,9 +96,12 @@ jstring Java_tgio_rncryptor_RNCryptorNative_decrypt(JNIEnv *env, jobject instanc
             delete cryptor;
             env->ReleaseStringUTFChars(encrypted_, encrypted);
             env->ReleaseStringUTFChars(password_, password);
+            jbyteArray array = env->NewByteArray((jsize) decrypted.size());
+            env->SetByteArrayRegion(array, 0, (jsize) decrypted.size(), (const jbyte *) decrypted.c_str());
+            return array;
         } catch (exception e) {
             decrypted = "error decrypting";
         }
     }
-    return env->NewStringUTF(decrypted.c_str());
+    return NULL;
 }

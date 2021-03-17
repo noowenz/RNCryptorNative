@@ -35,7 +35,7 @@ using CryptoPP::Base64Encoder;
 using CryptoPP::Base64Decoder;
 
 RNCryptor::RNCryptor() {
-	configureSettings(SCHEMA_2);
+	configureSettings(SCHEMA_3);
 }
 
 void RNCryptor::configureSettings(RNCryptorSchema schemaVersion)
